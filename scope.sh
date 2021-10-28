@@ -109,6 +109,11 @@ handle_extension() {
             python -m json.tool -- "${FILE_PATH}" && exit 5
             ;;
 
+				## MAT files
+				mat)
+					python3 -c "import scipy.io,pprint; pprint.pprint(scipy.io.loadmat(\"${FILE_PATH}\"))" && exit 5
+					;;
+
 				## Neuroimaging
 				gz|nii)
 					fslhd "${FILE_PATH}" && exit 5
