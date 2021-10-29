@@ -118,6 +118,9 @@ handle_extension() {
 				gz|nii)
 					fslhd "${FILE_PATH}" && exit 5
 					;;
+				dcm|dicom)
+					python3 -c "import pydicom; print(pydicom.read_file(\"${FILE_PATH}\"))" && exit 5
+					;;
 
         ## Direct Stream Digital/Transfer (DSDIFF) and wavpack aren't detected
         ## by file(1).
