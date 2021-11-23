@@ -121,6 +121,18 @@ handle_extension() {
 				dcm|dicom)
 					python3 -c "import pydicom; print(pydicom.read_file(\"${FILE_PATH}\"))" && exit 5
 					;;
+				annot)
+					python3 -c "from nibabel.freesurfer.io import read_annot; print(read_annot(\"${FILE_PATH}\"))" && exit 5
+					;;
+				area| avg_curv| crv| curv| defect_borders| defect_chull| defect_labels| inflated| jacobian_white| mid| nofix| orig| pial| preaparc| reg| smoothwm| sphere| sulc| thickness| volume| white)
+					python3 -c "from nibabel.freesurfer.io import read_morph_data; print(read_morph_data(\"${FILE_PATH}\"))" && exit 5
+					;;
+
+				mgz|mgh)
+					header_nii="/tmp/$(basename "${FILE_PATH}").nii.gz"
+					mri_convert "${FILE_PATH}" "${header_nii}"
+					fslhd "${header_nii}" && exit 5
+					;;
 
         ## Direct Stream Digital/Transfer (DSDIFF) and wavpack aren't detected
         ## by file(1).
